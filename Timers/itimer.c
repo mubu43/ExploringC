@@ -19,6 +19,10 @@ void foo(void) {
     delay.it_value.tv_sec = 5;
     delay.it_value.tv_usec = 0;
     //interval
+    /*
+        If interval is 0, timer is not an interval timer and disarms after
+        it_value
+    */
     delay.it_interval.tv_sec = 1;
     delay.it_interval.tv_usec = 0;
 
