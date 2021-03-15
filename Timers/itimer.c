@@ -10,13 +10,13 @@ void alarm_handler(int signo) {
 
 void foo(void) {
 
-    struct itimerval delay;
+    struct itimerval delay, returned;
     int ret;
 
     signal(SIGALRM, alarm_handler);
 
     //current
-    delay.it_value.tv_sec = 3;
+    delay.it_value.tv_sec = 5;
     delay.it_value.tv_usec = 0;
     //interval
     delay.it_interval.tv_sec = 1;
@@ -28,6 +28,16 @@ void foo(void) {
         perror("setitimer\n");
         return;
     }
+
+    sleep(2);   //sleep for 2 sec
+
+    ret = getitimer(ITIMER_REAL, &returned);
+    if(ret) {
+        perror("getitimer\n");
+        return;
+    }
+
+    printf("Current values of ITIMER_REAL-- %ldsec %ldmsec\n", returned.it_value.tv_sec, returned.it_value.tv_usec);
 
     pause();
     
